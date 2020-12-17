@@ -1,5 +1,5 @@
-exports.codeMailer = function(email,code){
-    var nodemailer = require('nodemailer');
+exports.codeMailer = function(email,name,course_n,course_i,code){
+    var nodemailer = require('nodemailer')
     const mailConfig = require('../configs/mail.config')
       var mailer = nodemailer.createTransport
       (
@@ -15,14 +15,18 @@ exports.codeMailer = function(email,code){
         }
       }
       )
+
       var mailOptions = {
         from:mailConfig.EMAIL,
         to: email,
-        subject: 'Course Enrollment code',
-        text: 'Code:'+code,
-      };
+        subject: 'Course ' +course_n+ " added",
+        text:"Hello,"+name+"\n\n"+
+      "Your course "+ course_i +":" + course_n+" ,is added successfully please share the following code with your students to eroll with:"+code+
+        "\n\n"+"Regards,"+"\n"+"Team Ams"
+      }
       mailer.sendMail(mailOptions , function(error, info){
         if (error) 
           console.log(error);
     })
+     
   }

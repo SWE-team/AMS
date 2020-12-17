@@ -17,9 +17,10 @@ module.exports = {
         session: 0,
         enroll:enroll_code
         })
-        const admin = await faculty_model.findById(mongoose.Types.ObjectId(req.body.admin_id))
-        mailer.codeMailer(admin.email,enroll_code)
         const result= await course.save()
+        const admin = await faculty_model.findById(mongoose.Types.ObjectId(req.body.admin_id))
+        mailer.codeMailer(admin.email,admin.name,req.body.name,req.body.course_id,enroll_code)
+        
         res.status(200).json({ success: true, result: result})
     }
     
@@ -100,8 +101,14 @@ module.exports = {
           const stud=await student_model.find({_id:all[0].attendance[i].Id})
           roll_arr.push(stud[0].rollNumber)
           name_arr.push(all[0].attendance[i].name)
+          if(all[0].sessioncount !==0)
+          {
           var num=Number(all[0].attendance[i].attendance)/(all[0].sessioncount)
           attendance_arr.push(Number(num.toPrecision(4)))
+          }
+          else{
+            attendance_arr.push(0)
+          }
         }
           res.status(200).json({name:name_arr,
                                 roll:roll_arr,

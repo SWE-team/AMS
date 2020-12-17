@@ -22,7 +22,6 @@ app.use(express.json())
 const course_Control = require('./controllers/course_controller')
 const student_Control = require('./controllers/student_controller')
 
-
 //Routes
 app.get('/', (req, res) => { res.send('Attendance Management System')})
 

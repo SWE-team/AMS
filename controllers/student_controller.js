@@ -42,7 +42,7 @@ module.exports = {
           }
         }
         catch (err) {
-            res.status(501).json({success: false,message: err.message})
+            res.status(501).json({success: false,message: "Something Went Wrong"})
           }
     },
 
@@ -63,7 +63,7 @@ module.exports = {
           
           for(j in result[0].attendance)
           {
-            if(result[0].attendance[j].Id.str == s_id.str)
+            if(String(result[0].attendance[j].Id) === String(s_id))
             {
               if(result[0].attendance[j].marked)
               {
@@ -111,6 +111,9 @@ module.exports = {
       try{
         var s_id= mongoose.Types.ObjectId(req.params.id)
         const all  = await course_model.find({"attendance.Id":s_id})
+        // console.log(s_id)
+        // console.log(all)
+
         result={}
         var course_ids=[]
         var course_name=[]
@@ -119,15 +122,28 @@ module.exports = {
         {
           for(j in all[i].attendance)
           {
-            if(all[i].attendance[j].Id.str == s_id.str)
+            console.log(all[i].attendance[j].Id)
+            console.log(s_id)
+            console.log(all[i].attendance[j].Id === s_id)
+            if(String(all[i].attendance[j].Id) === String(s_id))
             {
               course_ids.push(all[i].course_id)
               course_name.push(all[i].name)
+              if(all[i].sessioncount !== 0)
+              {
               attendance_ratio.push(all[i].attendance[j].attendance/all[i].sessioncount)
+              }
+              else
+              {
+                attendance_ratio.push(0)
+              }
               }
           }
           
         }
+        console.log({Id:course_ids,
+          names:course_name,
+          attendance:attendance_ratio})
         res.status(200).json({Id:course_ids,
                               names:course_name,
                               attendance:attendance_ratio})
