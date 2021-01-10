@@ -1,9 +1,0 @@
-[submodule "professor_interface"]
-	path = professor_interface
-	url = https://github.com/SWE-team/professor_interface.git
-[submodule "student_interface"]
-	path = student_interface
-	url = https://github.com/SWE-team/student_interface.git
-[submodule "login-api"]
-	path = login-api
-	url = https://github.com/SWE-team/login-api.git
